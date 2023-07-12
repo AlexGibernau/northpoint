@@ -1,11 +1,74 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
-@app.get("/")
-async def root():
-    return "¡Hola gente!"
 
-@app.get("/url")
-async def url():
-    return {"url_curso":"https://mouredev.com/python"}
+# Entidad user
+class User(BaseModel):
+    id: int
+    name: str
+    surname: str
+    email: str
+    age: int
+
+
+users_list = [
+    User(id=1, name="Alex", surname="Gibernau", email="alexgc808@gmail.com", age=26),
+    User(id=2, name="Pol", surname="Agullo", email="eles@gmail.com", age=21),
+    User(
+        id=3,
+        name="Adrian",
+        surname="Rodriguez",
+        email="adrianrodriguez@gmail.com",
+        age=25,
+    ),
+]
+
+
+@app.get("/usersjson")
+async def usersjson():
+    return [
+        {
+            "name": "Alex",
+            "surname": "Gibernau",
+            "email": "alexgc808@gmail.com",
+            "age": 26,
+        },
+        {"name": "Pol", "surname": "Agullo", "email": "eles@gmail.com", "age": 21},
+        {
+            "name": "Adrian",
+            "surname": "Rodriguez",
+            "email": "adrianrodriguez@gmail.com",
+            "age": 25,
+        },
+    ]
+
+
+@app.get("/users")
+async def users():
+    return users_list
+
+
+# Path
+@app.get("/user/{id}")
+async def user(id: int):
+    users = filter(lambda user: user.id == id, users_list)
+    try:
+        return list(users)[0]
+    except:
+        return {"error: no existe usuario"}
+
+
+# Query
+@app.get("/userquery/")
+async def user(id: int):
+    return search_user(id)
+
+
+def search_user(id: int):
+    users = filter(lambda user: user.id == id, users_list)
+    try:
+        return list(users)[0]
+    except:
+        return {"error: no existe usuario"}
