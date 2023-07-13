@@ -80,3 +80,15 @@ def search_user(id: int):
         return list(users)[0]
     except:
         return {"error: no existe usuario"}
+
+@app.put ("/user/")
+async def user(user:User):
+    
+    found = False
+    
+    for index, saved_user in enumerate(users_list):
+        if saved_user.id == user.id:
+            users_list[index] = user
+            found = True
+    if not found:
+        return {"Error: no se ha actualizado el usuario"}
