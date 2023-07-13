@@ -10,9 +10,7 @@ def load_pokemon():
     http = urllib3.PoolManager()
     response = http.request("GET", pokemon.sprites.front.get("default"))
 
-
-    
-    image = PIL.Image.open(BytesIO(response.data)).resize((500,500))
+    image = PIL.Image.open(BytesIO(response.data)).resize((500, 500))
     img = PIL.ImageTk.PhotoImage(image)
     pokemon_image.config(image=img)
     pokemon_image.image = img
@@ -25,75 +23,48 @@ def load_pokemon():
     pokemon_sp_def.config(text="Defensa Especial: " f"{pokemon.base_stats.sp_def}")
     pokemon_attack.config(text="Ataque: " f"{pokemon.base_stats.attack}")
     pokemon_sp_atk.config(text="Ataque Especial: " f"{pokemon.base_stats.sp_atk}")
-    pokemon_speed.config(text= "5")
+    pokemon_speed.config(text="5")
 
 
 window = tk.Tk()
-window.geometry("920x800")
-window.title("My Pokedex")
-window.config(padx=10, pady=10)
+for r in range(0, 15):
+    for c in range(0, 5):
+        cell = tk.Entry(window, width=10)
+        cell.grid(padx=5, pady=5, row=r, column=c)
+        #cell.insert(0, "({},{})".format(r, c))
 
 
+title_label = tk.Label(window, text="My pokedex", font=("Arial",32)).grid(pady=5,row=0,column=2)
 
-title_label = tk.Label(window, text="My pokedex")
-title_label.config(font=("Arial", 32))
-title_label.pack(padx=10, pady=10)
 
-label_id_name = tk.Label(window, text="Pon el id o el nombre")
-label_id_name.config(font=("Arial", 20))
-label_id_name.pack(padx=10, pady=10)
+label_id_name = tk.Label(window, text="Pon el id o el nombre",font=("Arial",20)).grid(pady=5,row=1,column=2)
 
-text_id_name = tk.Text(window, height=1, width=20)
-text_id_name.config(font=("Arial", 20))
-text_id_name.pack(padx=5, pady=5)
 
-btn_load = tk.Button(window, text="Buscar", command=load_pokemon)
-btn_load.config(font=("Arial", 20))
-btn_load.pack(padx=10, pady=10)
+text_id_name = tk.Text(window, height=1, width=20,font=("Arial",20)).grid(pady=5,row=2,column=2)
 
-pokemon_information = tk.Label(window)
-pokemon_information.config(font=("Arial", 12))
-pokemon_information.pack(padx=5, pady=5)
 
-pokemon_image = tk.Label(window)
-pokemon_image.pack(side="left")
+btn_load = tk.Button(window, text="Buscar", command=load_pokemon,font=("Arial",20)).grid(pady=5,row=3,column=2)
 
-pokemon_types = tk.Label(window)
-pokemon_types.config(font=("Arial", 12))
-pokemon_types.pack()
+
+pokemon_information = tk.Label(window,font=("Arial",12)).grid(pady=5,row=5,column=0)
+
+pokemon_image = tk.Label(window).grid(pady=5,row=6,column=0)
+
+pokemon_types = tk.Label(window,font=("Arial",12)).grid(pady=5,row=7,column=0)
 
 pokemon_weight = tk.Label(window)
-pokemon_weight.config(font=("Arial", 12))
-pokemon_weight.pack(side="right")
 
 pokemon_hp = tk.Label(window)
-pokemon_hp.config(font=("Arial", 12))
-pokemon_hp.pack(side="right")
 
 pokemon_def = tk.Label(window)
-pokemon_def.config(font=("Arial", 12))
-pokemon_def.pack(side="right")
 
 pokemon_sp_def = tk.Label(window)
-pokemon_sp_def.config(font=("Arial", 12))
-pokemon_sp_def.pack(side="right")
 
 pokemon_attack = tk.Label(window)
-pokemon_attack.config(font=("Arial", 12))
-pokemon_attack.pack(side="right")
 
 pokemon_sp_atk = tk.Label(window)
-pokemon_sp_atk.config(font=("Arial", 12))
-pokemon_sp_atk.pack(side="right")
 
 pokemon_speed = tk.Label(window)
-pokemon_speed.config(font=("Arial", 12))
-pokemon_speed.pack(side="right")
-
-
-
-
-
 
 
 window.mainloop()
