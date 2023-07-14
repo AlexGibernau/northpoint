@@ -80,9 +80,7 @@ label_id_name = tk.Label(window, text="Pon el id o el nombre")
 label_id_name.config(font=("Arial", 20))
 label_id_name.pack(padx=10, pady=10)
 
-text_id_name = tk.Text(window, height=1, width=20)
-text_id_name.config(font=("Arial", 20))
-text_id_name.pack(padx=5, pady=5)
+
 
 btn_load = tk.Button(window, text="Buscar", command=load_pokemon)
 btn_load.config(font=("Arial", 20))
