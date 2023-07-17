@@ -1,7 +1,7 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-app = FastAPI()
+router = APIRouter(tags=["users"], responses={404: {"message": "No encontrado"}})
 
 
 # Entidad user
@@ -26,7 +26,7 @@ users_list = [
 ]
 
 
-@app.get("/usersjson")
+@router.get("/usersjson")
 async def usersjson():
     return [
         {
@@ -45,13 +45,13 @@ async def usersjson():
     ]
 
 
-@app.get("/users")
+@router.get("/users")
 async def users():
     return users_list
 
 
 # Path
-@app.get("/user/{id}")
+@router.get("/user/{id}")
 async def user(id: int):
     users = filter(lambda user: user.id == id, users_list)
     try:
@@ -61,19 +61,19 @@ async def user(id: int):
 
 
 # Query
-@app.get("/userquery/")
+@router.get("/userquery/")
 async def user(id: int):
     return search_user(id)
 
 
-
-@app.post("/user/", response_model=User, status_code=201)
+@router.post("/user/", response_model=User, status_code=201)
 async def user(user: User):
-        if type(search_user(user.id)) == User:
-            raise HTTPException(204,detail="Error: Ya existe ese usuario.")
-        else:
-            users_list.append(user)
-            return user
+    if type(search_user(user.id)) == User:
+        raise HTTPException(204, detail="Error: Ya existe ese usuario.")
+    else:
+        users_list.append(user)
+        return user
+
 
 def search_user(id: int):
     users = filter(lambda user: user.id == id, users_list)
@@ -82,11 +82,11 @@ def search_user(id: int):
     except:
         return {"error: no existe usuario"}
 
-@app.put ("/user/")
-async def user(user:User):
-    
+
+@router.put("/user/")
+async def user(user: User):
     found = False
-    
+
     for index, saved_user in enumerate(users_list):
         if saved_user.id == user.id:
             users_list[index] = user
@@ -95,11 +95,12 @@ async def user(user:User):
         return {"Error: no se ha actualizado el usuario"}
     else:
         return user
-    
-@app.delete("/user/{id}")
+
+
+@router.delete("/user/{id}")
 async def user(id: int):
     found = False
-    
+
     for index, saved_user in enumerate(users_list):
         if saved_user.id == id:
             del users_list[index]
