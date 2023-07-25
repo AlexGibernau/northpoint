@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: contador cue
+spec:
+  containers:
+    - name: contenedor_1
+      image: aplicacion-tarea
