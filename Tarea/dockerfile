@@ -1,0 +1,26 @@
+# Establecer la imagen base
+FROM ubuntu:latest
+
+ 
+
+# Actualizar la lista de paquetes
+RUN apt-get update -y
+
+ 
+
+# Instalar Python 3.8
+RUN apt-get install -y python3.8 python3-pip
+
+# Establece el directorio de trabajo en /app
+WORKDIR /app
+
+# Copia el archivo de requisitos y ejecuta pip para instalar las dependencias
+RUN pip install requests
+
+# Copia el directorio actual (que contiene tu código fuente) en el contenedor en /app
+COPY . .
+
+ 
+
+# Ejecuta la aplicación cuando el contenedor se inicie
+CMD ["/bin/bash"]
