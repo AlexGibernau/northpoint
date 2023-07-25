@@ -43,3 +43,4 @@ if __name__ == "__main__":
             print(f"Tiempo entre CUE OUT y CUE IN: {tiempo_pasado:.2f} segundos")
             break
         time.sleep(8)
+ 
