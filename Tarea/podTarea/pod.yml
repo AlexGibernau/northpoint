@@ -6,5 +6,5 @@ spec:
   containers:
     - name: contenedor-1
       image: northpoint/prueba-2
-      command: ["python3","test_m3u8.py"]
+      command: ["python3","tareaEndM3u8-V2.py"]
       imagePullPolicy: Always
