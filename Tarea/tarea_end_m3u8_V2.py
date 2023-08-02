@@ -3,6 +3,7 @@ import sys
 import time
 
 import m3u8
+from prometheus_client import start_http_server, Summary, Gauge
 
 logging.basicConfig(
     level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -17,6 +18,10 @@ logging.info("Start of cue out and cue in calculation")
 variant_url = master_m3u8.playlists[variant_selected].absolute_uri
 
 print(variant_url)
+
+
+cue_out = Gauge('cue_out_seconds','Timestamp cue out event')
+cue_in = Gauge('cue_in_seconds','Timestamp cue in event')
 
 
 def find_cue(variant_m3u8):
@@ -44,3 +49,6 @@ while True:
         logging.info(f"Time between CUE OUT and CUE IN: {tiempo_pasado:.2f} seconds")
         break
     time.sleep(1)
+
+if __name__ == '__main__':
+    start_http_server(8000)
